@@ -536,8 +536,14 @@ The configuration file with the corresponding changes can be found at https://gi
 
 
 while dockerizing the ELK stack
+
 1. First start the elsticsearch container with default configfile
-docker run -it --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 --user esuser -m 1GB -e "discovery.type=single-node" elasticsearch:8.10.2
+
+.. code:: console
+
+   docker run -it --name elasticsearch --net elk -p 9200:9200 -p 9300:9300 --user esuser -m 1GB -e "discovery.type=single-node" elasticsearch:8.10.2
+
+
 with some changes in the default parameters in the elasticsearch.yml file.
 excluding the security.
 
@@ -548,41 +554,59 @@ then ctrl+c after token generated
 Now make the modifications in elasticserach.yml file to disable the security features
 make sure all the parameters related to security are set to false
 
-xpack.security.enabled: false
+.. code:: console
 
-xpack.security.enrollment.enabled: false
-xpack.security.http.ssl:
-  enabled: true
-xpack.security.transport.ssl:
-  enabled: false
+   xpack.security.enabled: false
+
+   xpack.security.enrollment.enabled: false
+   xpack.security.http.ssl:
+     enabled: true
+   xpack.security.transport.ssl:
+     enabled: false
 
 Then copy this config file to the docker instance
-docker cp ~/elasticsearch/elasticsearch.yml elasticsearch:/home/esuser/elasticsearch/config/elasticsearch.yml
 
-then restart the elsticsearch using ./elasticsearch/bin/elasticserach
+.. code:: console
+
+   docker cp ~/elasticsearch/elasticsearch.yml elasticsearch:/home/esuser/elasticsearch/config/elasticsearch.yml
+
+then restart the elsticsearch using ./elasticsearch/bin/elasticsearch
 
 2. Now start the kibana instance
-docker run -it --name kibana --net elk -p 5601:5601 --user esuser kibana:8.10.2
+
+.. code:: console
+
+   docker run -it --name kibana --net elk -p 5601:5601 --user esuser kibana:8.10.2
 
 in the config file kibana.yml, do the initial modifications 
-server.port: 5601
-server.host: "0.0.0.0"
-elasticsearch.hosts: ["http://elasticsearch:9200"]
-elasticsearch.ssl.verificationMode: none
+
+.. code:: console
+
+   server.port: 5601
+   server.host: "0.0.0.0"
+   elasticsearch.hosts: ["http://elasticsearch:9200"]
+   elasticsearch.ssl.verificationMode: none
+
 These are the major changes to do. copy the modified file to kibana container
 
-docker cp ~/kibana/kibana-8.10.2/config/kibana.yml kibana:/home/esuser/kibana/config/kibana.yml
+.. code:: console
+
+   docker cp ~/kibana/kibana-8.10.2/config/kibana.yml kibana:/home/esuser/kibana/config/kibana.yml
 
 start the kibana instance using ./kibana/bin/kibana
 
 goto browser and open localhost:5601/
 
 3. now we can exist from the two containers and then again restart the containers
+
 4. Logstash is alo started in the same manner as the above
 
-docker run -it --name logstash --user esuser --net elk -p 5044:5044 logstash:8.10.2 
+.. code:: console
 
-* things to remember for Logstash is 
+   docker run -it --name logstash --user esuser --net elk -p 5044:5044 logstash:8.10.2 
+
+**things to remember for Logstash is**
+
 - it requires a logstash.conf file which has to be located in home directory of the logstash 
 means /home/esuser/logstash/logstash.conf
 this mainly contains the Input and Output plugin configurations
@@ -590,6 +614,7 @@ this mainly contains the Input and Output plugin configurations
 - to run the logstash use /home/esuser/logstash/bin/logstash -f logstash.conf
 
 5. Filebeats setup.
+
 all the files must be owned by the root user.
 I could collect the auth.log using the input plugin filestream
 and providing the path: 
@@ -609,26 +634,30 @@ This command listed syslog.socket created at /run/systemd/journal/syslog
 
 The example configuration given in Elastic docs
 
-filebeat.inputs:
-- type: syslog
-  format: auto
-  protocol.unix:
-    path: "/path/to/syslog.sock"
+.. code:: console
 
-sudo ./filebeat test config -e
+   filebeat.inputs:
+     - type: syslog
+     format: auto
+     protocol.unix:
+       path: "/path/to/syslog.sock"
+   
+   sudo ./filebeat test config -e
 
-sudo ./filebeat -e -c filebeat.yml
+   sudo ./filebeat -e -c filebeat.yml
 
-filebeat.inputs:
-- type: filestream
-id: my-filestream-id
-enabled: true
-paths:
-  - /var/log/syslog
-tags: [piBeats]
+.. code:: console
 
-output.console:
-enabled: true
-pretty: true
+  filebeat.inputs:
+   - type: filestream
+  id: my-filestream-id
+  enabled: true
+  paths:
+    - /var/log/syslog
+  tags: [piBeats]
+
+  output.console:
+  enabled: true
+  pretty: true
 
 
