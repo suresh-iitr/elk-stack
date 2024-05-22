@@ -15,4 +15,3 @@ Contents
 .. toctree::
 
    elk-stack
-   api
