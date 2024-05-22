@@ -1,13 +1,9 @@
-Welcome to Lumache's documentation!
+Welcome to elk-stack's documentation!
 ===================================
 
-**Lumache** (/lu'make/) is a Python library for cooks and food lovers
-that creates recipes mixing random ingredients.
-It pulls data from the `Open Food Facts database <https://world.openfoodfacts.org/>`_
-and offers a *simple* and *intuitive* API.
+**ELK-Stack** The ELK Stack began as a collection of three open-source products — Elasticsearch, Logstash, and Kibana that can be used as a complete solution for Log and Event analysis.
 
-Check out the :doc:`usage` section for further information, including
-how to :ref:`installation` the project.
+Check out the :doc:`elk-stack` section for further information.
 
 .. note::
 
@@ -18,5 +14,5 @@ Contents
 
 .. toctree::
 
-   usage
+   elk-stack
    api
