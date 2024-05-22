@@ -106,7 +106,7 @@ Logstash configuration will have 3 parts
  
   Input and Output configuration is must. Filter is optional.
 
-A sample logstash configuration file is given at https://github.com/19914039/Docker/blob/main/elkstask/logstash/logstash.conf
+A sample logstash configuration file is given at https://github.com/suresh-iitr/Docker/blob/main/elkstask/logstash/logstash.conf
 
 Logstash can read the filelogs directly or It can collect from ``filebeat``. In our usecase, Logstash, Elastcserach and Kibana are running at VM and the filebeats is running at the edge device. It collects logs and will post to Logstash or the Logstash sitting at VM (central Log Collection and analysis) will collect the logs from multiple Filebeat instances as illustarted in the below figure
 
@@ -152,7 +152,7 @@ The filebeat requires two important configurations,
 
   To allow the filebeats read access to the docker container logs, Filebeats should be owned by the ``root`` user. If you want only the host logs then no need.
   
-- A sample filebeat configuration file ``filebeat.yml`` is given at https://github.com/19914039/Docker/blob/main/elkstask/filebeat/filebeat.yml
+- A sample filebeat configuration file ``filebeat.yml`` is given at https://github.com/suresh-iitr/Docker/blob/main/elkstask/filebeat/filebeat.yml
 
 By default in the outputs section elasticsearch would be enabled. Comment out this and uncomment ``Logstash output`` section. For the filebeat instance running at Raspi, the host address should be the ``IP of VM`` for example ``10.12.2.86:5044`` where the logstash is running. For the filebeat instance running on the same host as that of logstash, then the host address can be either the IP or the ``127.0.0.1:5044`` or ``localhost:5044``  
 
@@ -207,11 +207,11 @@ This reference might ne useful https://logz.io/learn/docker-monitoring-elk-stack
 1. ElasticSerach Dockerization:
 -----
 
-The dockerfile for the same is available at https://github.com/19914039/Docker/blob/main/elkstask/elasticsearch/Dockerfile and the Docker Image for the same is available at ``docker pull 19914039/elasticsearch:latest``
+The dockerfile for the same is available at https://github.com/suresh-iitr/Docker/blob/main/elkstask/elasticsearch/Dockerfile and the Docker Image for the same is available at ``docker pull suresh-iitr/elasticsearch:latest``
 
 We also need to provide some initial configuration file 
 
-- ``elasticsearch.yml`` https://github.com/19914039/Docker/blob/main/elkstask/elasticsearch/elasticsearch-sample.yml if you want to continue with the default security enabled
+- ``elasticsearch.yml`` https://github.com/suresh-iitr/Docker/blob/main/elkstask/elasticsearch/elasticsearch-sample.yml if you want to continue with the default security enabled
 
 1. build the docker image
 
@@ -259,7 +259,7 @@ We also need to provide some initial configuration file
 
   
 
-**If you want to disable the security** then stop the elasticsearch using ``Ctrl+C`` and then ``Copy`` the condiguration file https://github.com/19914039/Docker/blob/main/elkstask/elasticsearch/elasticsearch.yml and then restart.
+**If you want to disable the security** then stop the elasticsearch using ``Ctrl+C`` and then ``Copy`` the condiguration file https://github.com/suresh-iitr/Docker/blob/main/elkstask/elasticsearch/elasticsearch.yml and then restart.
 
 .. code:: console
 
@@ -274,16 +274,16 @@ We also need to provide some initial configuration file
 2. Kibana Dockerization:
 -----
 
-The dockerfile for the same is available at https://github.com/19914039/Docker/blob/main/elkstask/kibana/Dockerfile and the Docker Image for the same is available at ``docker pull 19914039/kibana``
+The dockerfile for the same is available at https://github.com/suresh-iitr/Docker/blob/main/elkstask/kibana/Dockerfile and the Docker Image for the same is available at ``docker pull suresh-iitr/kibana``
 
 We also need to provide some initial configuration file 
 
-- ``kibana.yml`` https://github.com/19914039/Docker/blob/main/elkstask/kibana/kibana-sample.yml if you want to continue with the default security enabled
+- ``kibana.yml`` https://github.com/suresh-iitr/Docker/blob/main/elkstask/kibana/kibana-sample.yml if you want to continue with the default security enabled
 
 .. note::
   with this configuration, we need to have the enroll token, username and password to integrate kibana with Elasticserach If you are using security enabled.
   
-**If you want to disable the security** then you can use ``kibana.yml`` https://github.com/19914039/Docker/blob/main/elkstask/kibana/kibana.yml
+**If you want to disable the security** then you can use ``kibana.yml`` https://github.com/suresh-iitr/Docker/blob/main/elkstask/kibana/kibana.yml
 
 1. build the docker image
 
@@ -308,13 +308,13 @@ We also need to provide some initial configuration file
 3. Logstash Dockerization:
 -----
 
-The dockerfile for the same is available at https://github.com/19914039/Docker/blob/main/elkstask/logstash/Dockerfile and the Docker Image for the same is available at ``docker pull 19914039/logstash``
+The dockerfile for the same is available at https://github.com/suresh-iitr/Docker/blob/main/elkstask/logstash/Dockerfile and the Docker Image for the same is available at ``docker pull suresh-iitr/logstash``
 
 We also need to provide some initial configuration file 
 
-- ``logstash.conf`` https://github.com/19914039/Docker/blob/main/elkstask/logstash/Samplelogstash.conf if you want to continue with the default security disabled
+- ``logstash.conf`` https://github.com/suresh-iitr/Docker/blob/main/elkstask/logstash/Samplelogstash.conf if you want to continue with the default security disabled
 
-- ``logstash.conf`` https://github.com/19914039/Docker/blob/main/elkstask/logstash/logstash.conf if you want to continue with the default security enabled
+- ``logstash.conf`` https://github.com/suresh-iitr/Docker/blob/main/elkstask/logstash/logstash.conf if you want to continue with the default security enabled
   
 1. build the docker image
 
@@ -346,9 +346,9 @@ We also need to provide some initial configuration file
 4. Filebeat Dockerization
 ----
 
-The dockerfile for the same is available at https://github.com/19914039/Docker/blob/main/elkstask/filebeat/Dockerfile and the Docker Image for the same is available at ``docker pull 19914039/filebeat`` 
+The dockerfile for the same is available at https://github.com/suresh-iitr/Docker/blob/main/elkstask/filebeat/Dockerfile and the Docker Image for the same is available at ``docker pull suresh-iitr/filebeat`` 
 
-A sample configuration file ``filebeat.yml`` can be found at https://github.com/19914039/Docker/blob/main/elkstask/filebeat/filebeat.yml
+A sample configuration file ``filebeat.yml`` can be found at https://github.com/suresh-iitr/Docker/blob/main/elkstask/filebeat/filebeat.yml
 
 Inorder to allow the contained flebeat to have access to docker logs as well as host logs we will be using the concept of ``Docker Volume``. we have created two directories in the image of filebeat and will mount to the respective source directories while running the container
 
@@ -532,7 +532,7 @@ To copy the configuration files and the certificates, key files use ``docker cp`
   docker cp ~/cert/server.crt 32fa520f28c8:/home/esuser/kibana/config/server.crt
   docker cp ~/elk/kibana/kibana-8.4.2/config/kibana.yml 32fa520f28c8:/home/esuser/kibana/config/kibana.yml
   
-The configuration file with the corresponding changes can be found at https://github.com/19914039/Docker/blob/main/elkstask/kibana/kibanaSSL.yml
+The configuration file with the corresponding changes can be found at https://github.com/suresh-iitr/Docker/blob/main/elkstask/kibana/kibanaSSL.yml
 
 
 while dockerizing the ELK stack
